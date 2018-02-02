@@ -1,0 +1,15 @@
+<VirtualHost *:{{ item.port }}>
+ ServerName {{ item.url }}
+{% if item.ssl_cert is defined %}
+ SSLEngine On
+ SSLCertificateFile {{ item.ssl_cert }}
+ SSLCertificateKeyFile {{ item.ssl_key }}
+ SSLCertificateChainFile {{ item.ssl_cert }}
+{% endif %}
+ CustomLog /var/log/apache2/{{  item.name }}_svn_access.log combined
+
+ <Location />
+   DAV svn
+   SVNParentPath {{ item.storage }}
+ </Location>
+</VirtualHost>

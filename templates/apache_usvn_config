@@ -1,0 +1,35 @@
+<VirtualHost *:{{ item.port }}>
+ ServerName {{ item.url }}
+{% if item.ssl_cert is defined %}
+ SSLEngine On
+ SSLCertificateFile {{ item.ssl_cert }}
+ SSLCertificateKeyFile {{ item.ssl_key }}
+ SSLCertificateChainFile {{ item.ssl_cert }}
+{% endif %}
+ Alias /svn {{ item.storage }}/svn
+ Alias / {{ svn_usvn_install_path }}/public/
+ CustomLog /var/log/apache2/{{  item.name }}_usvn_access.log combined
+
+ <Directory {{ svn_usvn_install_path }}/public>
+          Options +SymLinksIfOwnerMatch
+           AllowOverride All
+           Require all granted
+ </Directory>
+
+ <Directory  {{ svn_usvn_install_path }}>
+    AllowOverride none
+    Require all granted
+</Directory>
+
+ <Location /svn>
+  ErrorDocument 404 default
+  DAV svn
+  Require valid-user
+  SVNParentPath {{ item.storage }}/svn
+  SVNListParentPath off
+  AuthType Basic
+  AuthName "{{ item.auth_name }}"
+  AuthUserFile {{ item.storage }}/htpasswd
+  AuthzSVNAccessFile {{ item.storage }}/authz
+ </Location>
+</VirtualHost>

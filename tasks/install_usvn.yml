@@ -1,0 +1,39 @@
+---
+
+- name: Install usvn requirements
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ svn_usvn_dependencies }}"
+
+- name: Get usvn package
+  get_url:
+    url: "{{ svn_usvn_package }}"
+    dest: /tmp
+  creates: "/tmp/{{ svn_usvn_install_file }}"
+
+- name: Unarchive package
+  unarchive:
+    src: "/tmp/{{ svn_usvn_install_file }}"
+    dest: "/tmp"
+    remote_src: yes
+    owner: www-data
+    group: www-data
+    creates: "{{ item.install_path }}"
+  with_items: "{{ svn_usvn_repositories }}"
+
+- name: Create working copy
+  shell: |
+    if [ ! -d "{{ item.install_path }}" ]
+     then
+     cp -r "/tmp/usvn-{{ svn_usvn_version }}" "{{ item.install_path }}"
+    fi
+  with_items: "{{ svn_usvn_repositories }}"
+
+- name: Set permissions
+  file:
+    path: "{{ item.install_path }}"
+    owner: www-data
+    group: www-data
+    recurse: true
+  with_items: "{{ svn_usvn_repositories }}"

@@ -1,0 +1,7 @@
+---
+- include: install_svn.yml
+- include: install_usvn.yml
+  when: svn_usvn
+- include: configure_svn.yml
+- include: configure_usvn.yml
+  when: svn_usvn

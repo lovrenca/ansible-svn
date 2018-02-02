@@ -1,0 +1,16 @@
+---
+
+- name: Create uswn data directory
+  file:
+    path: "{{ item.storage }}"
+    state: directory
+    owner: www-data
+    group: www-data
+  with_items: "{{ svn_usvn_repositories }}"
+
+- name: Create uswn apache config
+  template:
+    src: apache_usvn_config
+    dest: "{{ apache2_vhosts_dir }}/{{ item.name }}-usvn.conf"
+  notify: Reload apache2
+  with_items: "{{ svn_usvn_repositories }}"

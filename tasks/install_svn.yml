@@ -1,0 +1,22 @@
+---
+
+- name: Install SVN requirements
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ svn_packages }}"
+
+- name: Install svn optional packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ svn_aditional_packages|default(omit) }}"
+  when: svn_aditional_packages is defined
+
+- name: Enable apache2 modules
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ apache2_optional_modules|default(omit) }}"
+  when: apache2_optional_modules is defined
+  notify: Restart apache2

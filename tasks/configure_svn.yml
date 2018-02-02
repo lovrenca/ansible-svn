@@ -1,0 +1,17 @@
+---
+
+- name: Enable apache modules for svn
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ svn_apache_modules|default(omit) }}"
+  when: svn_apache_modules is defined
+  notify: Restart apache2
+
+- name: Create apache config
+  template:
+    src: apache_config
+    dest: "{{ apache2_vhosts_dir }}/{{ item.name }}-svn.conf"
+  with_items: "{{ svn_repositories }}"
+  when: not svn_usvn
+  notify: Reload apache2

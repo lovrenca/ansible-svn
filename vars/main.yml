@@ -1,0 +1,20 @@
+---
+svn_packages:
+  - subversion
+  - subversion-tools
+  - libapache2-svn
+
+svn_usvn_install_file: "usvn-{{ svn_usvn_version }}.tar.gz"
+svn_usvn_package: "https://github.com/usvn/usvn/archive/{{ svn_usvn_version }}.tar.gz"
+svn_usvn_dependencies:
+  - libapache2-mod-php7.0
+  - php7.0-mysql
+  - php7.0-xml
+  - php7.0-sqlite3
+
+svn_apache_modules:
+  - dav
+  - dav_fs
+  - rewrite
+  - authz_svn
+  - dav_svn

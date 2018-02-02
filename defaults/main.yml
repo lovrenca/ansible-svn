@@ -2,5 +2,4 @@
 
 svn_data_dir: /opt/svn
 svn_usvn: false
-svn_usvn_install_path: /var/www/usvn
 svn_usvn_version: "1.0.7"

@@ -6,7 +6,6 @@
  SSLCertificateKeyFile {{ item.ssl_key }}
  SSLCertificateChainFile {{ item.ssl_cert }}
 {% endif %}
- Alias /svn {{ item.storage }}/svn
  Alias / {{ svn_usvn_install_path }}/public/
  CustomLog /var/log/apache2/{{  item.name }}_usvn_access.log combined
 

@@ -1,12 +1,12 @@
 <VirtualHost *:{{ item.port }}>
  ServerName {{ item.url }}
+ DocumentRoot {{ svn_usvn_install_path }}/public/
 {% if item.ssl_cert is defined %}
  SSLEngine On
  SSLCertificateFile {{ item.ssl_cert }}
  SSLCertificateKeyFile {{ item.ssl_key }}
  SSLCertificateChainFile {{ item.ssl_cert }}
 {% endif %}
- Alias / {{ svn_usvn_install_path }}/public/
  CustomLog /var/log/apache2/{{  item.name }}_usvn_access.log combined
 
  <Directory {{ svn_usvn_install_path }}/public>

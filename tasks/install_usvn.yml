@@ -30,6 +30,13 @@
     fi
   with_items: "{{ svn_usvn_repositories }}"
 
+- name: Create svn links
+  file:
+    state: link
+    dest: "{{ item.install_path }}/public/svn"
+    src: "{{ item.storage }}/svn"
+  with_items: svn_usvn_repositories
+
 - name: Set permissions
   file:
     path: "{{ item.install_path }}"

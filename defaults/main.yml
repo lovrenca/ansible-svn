@@ -3,3 +3,8 @@
 svn_data_dir: /opt/svn
 svn_usvn: false
 svn_usvn_version: "1.0.7"
+svn_usvn_dependencies:
+  - libapache2-mod-php{{ php_version }}
+  - php{{ php_version }}-mysql
+  - php{{ php_version }}-xml
+  - php{{ php_version }}-sqlite3

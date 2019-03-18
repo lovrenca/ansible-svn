@@ -8,7 +8,7 @@
     group: www-data
   with_items: "{{ svn_usvn_repositories }}"
 
-- name: Create uswn apache config
+- name: Create usvn apache config
   template:
     src: apache_usvn_config
     dest: "{{ apache2_vhosts_dir }}/{{ item.name }}-usvn.conf"

@@ -2,15 +2,13 @@
 
 - name: Install usvn requirements
   apt:
-    name: "{{ item }}"
+    name: "{{ svn_usvn_dependencies }}"
     state: present
-  with_items: "{{ svn_usvn_dependencies }}"
 
 - name: Get usvn package
   get_url:
     url: "{{ svn_usvn_package }}"
     dest: /tmp
-  creates: "/tmp/{{ svn_usvn_install_file }}"
 
 - name: Unarchive package
   unarchive:
@@ -35,7 +33,7 @@
     state: link
     dest: "{{ item.install_path }}/public/svn"
     src: "{{ item.storage }}/svn"
-  with_items: svn_usvn_repositories
+  with_items: "{{ svn_usvn_repositories }}"
 
 - name: Set permissions
   file:
